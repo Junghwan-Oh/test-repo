@@ -1,0 +1,132 @@
+import Image from "next/image";
+import { Heart, Star, Wifi, Train } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { City } from "@/lib/types";
+import { getCharacteristicEmoji, getCharacteristicLabel } from "@/lib/utils";
+
+interface CityCardProps {
+  city: City;
+}
+
+export function CityCard({ city }: CityCardProps) {
+  // 생활비를 만원 단위로 포맷팅
+  const formatCost = (cost: number) => {
+    return `${Math.round(cost / 10000)}만원/월`;
+  };
+
+  // 카페 밀집도 한글 변환
+  const cafeDensityLabel = {
+    low: "낮음",
+    medium: "보통",
+    high: "높음",
+  };
+
+  return (
+    <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-full flex flex-col">
+      {/* Image Container */}
+      <div className="relative h-48 w-full overflow-hidden">
+        <Image
+          src={city.imageUrl}
+          alt={city.name}
+          fill
+          className="object-cover group-hover:scale-110 transition-transform duration-300"
+        />
+        {/* Save Button */}
+        <button className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white transition-colors shadow-md">
+          <Heart className="h-4 w-4 text-gray-600" />
+        </button>
+      </div>
+
+      <CardContent className="p-4 flex-1 flex flex-col">
+        {/* Title Section */}
+        <div className="mb-3">
+          <h3 className="text-xl font-bold text-foreground mb-1">
+            {city.name}
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            {city.description}
+          </p>
+        </div>
+
+        {/* Rating */}
+        <div className="flex items-center gap-1 mb-3">
+          <Star className="h-4 w-4 fill-accent text-accent" />
+          <span className="font-semibold text-foreground">
+            {city.averageRating.toFixed(1)}
+          </span>
+          <span className="text-sm text-muted-foreground">
+            / 5.0
+          </span>
+          <span className="text-sm text-muted-foreground ml-1">
+            ({city.reviewCount}개 리뷰)
+          </span>
+        </div>
+
+        {/* Info Grid */}
+        <div className="space-y-2 mb-3">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">💰 월 생활비:</span>
+            <span className="font-semibold text-foreground">
+              {formatCost(city.averageLivingCost)}
+            </span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">☕ 카페 밀집도:</span>
+            <span className="font-medium text-foreground">
+              {cafeDensityLabel[city.cafeDensity]} ({city.cafeCount}+)
+            </span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground flex items-center gap-1">
+              <Wifi className="h-3 w-3" /> 인터넷:
+            </span>
+            <span className="flex items-center">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  className={`h-3 w-3 ${
+                    i < city.internetScore
+                      ? "fill-accent text-accent"
+                      : "fill-gray-300 text-gray-300"
+                  }`}
+                />
+              ))}
+            </span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground flex items-center gap-1">
+              <Train className="h-3 w-3" /> 교통:
+            </span>
+            <span className="flex items-center">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  className={`h-3 w-3 ${
+                    i < city.transportScore
+                      ? "fill-accent text-accent"
+                      : "fill-gray-300 text-gray-300"
+                  }`}
+                />
+              ))}
+            </span>
+          </div>
+        </div>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mt-auto">
+          {city.characteristics.map((char) => (
+            <Badge key={char} variant="outline" className="text-xs">
+              {getCharacteristicEmoji(char)} {getCharacteristicLabel(char)}
+            </Badge>
+          ))}
+          {city.tags.slice(0, 2).map((tag) => (
+            <Badge key={tag} variant="secondary" className="text-xs">
+              #{tag}
+            </Badge>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
