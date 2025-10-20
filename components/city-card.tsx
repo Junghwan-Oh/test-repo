@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Heart, Star, Wifi, Train } from "lucide-react";
+import { Heart, Star, Wifi, Train, ThumbsUp, ThumbsDown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { City } from "@/lib/types";
@@ -61,6 +61,18 @@ export function CityCard({ city }: CityCardProps) {
           <span className="text-sm text-muted-foreground ml-1">
             ({city.reviewCount}개 리뷰)
           </span>
+        </div>
+
+        {/* Likes/Dislikes */}
+        <div className="flex items-center justify-between mb-3 text-sm">
+          <div className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors">
+            <ThumbsUp className="h-4 w-4" />
+            <span className="font-medium">{city.likesCount}</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors">
+            <span className="font-medium">{city.dislikesCount}</span>
+            <ThumbsDown className="h-4 w-4" />
+          </div>
         </div>
 
         {/* Info Grid */}
