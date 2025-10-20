@@ -293,3 +293,57 @@ export const cities: City[] = [
 
 // 이달의 추천 도시
 export const featuredCity = cities[1]; // 강릉시
+
+// 도시 ID로 조회
+export function getCityById(id: string): City | undefined {
+  return cities.find((city) => city.id === id);
+}
+
+// 관련 도시 추천 (같은 지역 또는 유사한 특성)
+export function getRelatedCities(cityId: string, limit: number = 4): City[] {
+  const currentCity = getCityById(cityId);
+  if (!currentCity) return [];
+
+  // 현재 도시를 제외한 모든 도시
+  const otherCities = cities.filter((city) => city.id !== cityId);
+
+  // 우선순위 점수 계산
+  const citiesWithScore = otherCities.map((city) => {
+    let score = 0;
+
+    // 같은 지역이면 +10점
+    if (city.region === currentCity.region) {
+      score += 10;
+    }
+
+    // 공통 특성(characteristics) 개수만큼 +5점
+    const commonCharacteristics = city.characteristics.filter((char) =>
+      currentCity.characteristics.includes(char)
+    );
+    score += commonCharacteristics.length * 5;
+
+    // 공통 환경(environments) 개수만큼 +3점
+    const commonEnvironments = city.environments.filter((env) =>
+      currentCity.environments.includes(env)
+    );
+    score += commonEnvironments.length * 3;
+
+    // 비슷한 생활비 (+/- 20만원 이내)이면 +2점
+    if (Math.abs(city.averageLivingCost - currentCity.averageLivingCost) <= 200000) {
+      score += 2;
+    }
+
+    return { city, score };
+  });
+
+  // 점수 순으로 정렬하고, 같은 점수면 평점 순으로 정렬
+  const sortedCities = citiesWithScore.sort((a, b) => {
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+    return b.city.averageRating - a.city.averageRating;
+  });
+
+  // 상위 limit개 반환
+  return sortedCities.slice(0, limit).map((item) => item.city);
+}

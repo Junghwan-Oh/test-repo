@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { City } from "@/lib/types";
@@ -40,9 +41,11 @@ export function HeroBanner({ city }: HeroBannerProps) {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="bg-primary hover:bg-primary/90">
-              자세히 보기
-            </Button>
+            <Link href={`/cities/${city.id}`}>
+              <Button size="lg" className="bg-primary hover:bg-primary/90 w-full sm:w-auto">
+                자세히 보기
+              </Button>
+            </Link>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
               모든 도시 둘러보기
             </Button>
