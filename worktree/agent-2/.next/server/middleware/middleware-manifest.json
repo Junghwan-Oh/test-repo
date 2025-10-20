@@ -1,0 +1,33 @@
+{
+  "sorted_middleware": [],
+  "middleware": {
+    "/": {
+      "files": [
+        "server/edge/chunks/alpha-02-Red Flag_nomad-korea_worktree_agent-2_cbddfb59._.js",
+        "server/edge/chunks/d1e2b_@supabase_auth-js_dist_module_5ad26b28._.js",
+        "server/edge/chunks/54d53__pnpm_747e2476._.js",
+        "server/edge/chunks/[root-of-the-server]__66741459._.js",
+        "server/edge/chunks/turbopack-alpha-02-Red Flag_nomad-korea_worktree_agent-2_edge-wrapper_d1f6c2a5.js"
+      ],
+      "name": "middleware",
+      "page": "/",
+      "matchers": [
+        {
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*){(\\\\.json)}?",
+          "originalSource": "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"
+        }
+      ],
+      "wasm": [],
+      "assets": [],
+      "env": {
+        "__NEXT_BUILD_ID": "development",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "qQYgHMo66nC4KCcOGeBbYTnvsR5KWrGJl56RVnOeosQ=",
+        "__NEXT_PREVIEW_MODE_ID": "f173b2df8fe138ca5fac9cbaecaaed96",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "0004aabd52b49c6e7f4680dbefc6723ef3296352e020e1f12fef9e79fdc27225",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "478e1949c697e2af9766522a0ed64bd6d3771bc1b4bb49f67008288740bd41b0"
+      }
+    }
+  },
+  "instrumentation": null,
+  "functions": {}
+}

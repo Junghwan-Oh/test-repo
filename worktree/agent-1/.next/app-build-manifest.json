@@ -1,0 +1,18 @@
+{
+  "pages": {
+    "/_not-found/page": [
+      "static/chunks/[root-of-the-server]__cce926ef._.css",
+      "static/chunks/2ca91_next_dist_e6240b2e._.js",
+      "static/chunks/alpha-02-Red Flag_nomad-korea_worktree_agent-1_app_layout_tsx_249e66f9._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_dd286ddd._.js",
+      "static/chunks/2ca91_next_dist_compiled_react-dom_acde933b._.js",
+      "static/chunks/2ca91_next_dist_compiled_next-devtools_index_8fcffa60.js",
+      "static/chunks/2ca91_next_dist_compiled_952261ed._.js",
+      "static/chunks/2ca91_next_dist_client_2ac27370._.js",
+      "static/chunks/2ca91_next_dist_1a7410dc._.js",
+      "static/chunks/3f1d8_@swc_helpers_cjs_4d41fe06._.js",
+      "static/chunks/alpha-02-Red Flag_nomad-korea_worktree_agent-1_a0ff3932._.js",
+      "static/chunks/turbopack-alpha-02-Red Flag_nomad-korea_worktree_agent-1_b8f411c5._.js"
+    ]
+  }
+}

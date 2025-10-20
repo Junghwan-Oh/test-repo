@@ -10,7 +10,7 @@ export function formatCurrency(amount: number): string {
     style: 'currency',
     currency: 'KRW',
     maximumFractionDigits: 0,
-  }).replace('₩', '₩');
+  }).format(amount);
 }
 
 export function getCharacteristicEmoji(characteristic: string): string {

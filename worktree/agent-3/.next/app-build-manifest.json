@@ -1,0 +1,22 @@
+{
+  "pages": {
+    "/page": [
+      "static/chunks/[root-of-the-server]__36575794._.css",
+      "static/chunks/69bdd_next_dist_a6986ce9._.js",
+      "static/chunks/alpha-02-Red Flag_nomad-korea_worktree_agent-3_app_layout_tsx_ae9bcc31._.js",
+      "static/chunks/69bdd_next_dist_client_components_builtin_global-error_fd7c1767.js",
+      "static/chunks/31f05__pnpm_ab284582._.js",
+      "static/chunks/alpha-02-Red Flag_nomad-korea_worktree_agent-3_6e610109._.js",
+      "static/chunks/alpha-02-Red Flag_nomad-korea_worktree_agent-3_app_page_tsx_fd7c1767._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_dd8077ff._.js",
+      "static/chunks/69bdd_next_dist_compiled_react-dom_e30399f3._.js",
+      "static/chunks/69bdd_next_dist_compiled_next-devtools_index_58df5fcc.js",
+      "static/chunks/69bdd_next_dist_compiled_7d7ca8c2._.js",
+      "static/chunks/69bdd_next_dist_client_d0a4b5e4._.js",
+      "static/chunks/69bdd_next_dist_715442a0._.js",
+      "static/chunks/79e14_@swc_helpers_cjs_c6cb00b6._.js",
+      "static/chunks/alpha-02-Red Flag_nomad-korea_worktree_agent-3_a0ff3932._.js",
+      "static/chunks/turbopack-alpha-02-Red Flag_nomad-korea_worktree_agent-3_76106423._.js"
+    ]
+  }
+}

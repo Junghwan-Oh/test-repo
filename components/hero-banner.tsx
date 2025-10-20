@@ -36,7 +36,7 @@ export function HeroBanner({ city }: HeroBannerProps) {
           </h1>
 
           <p className="text-xl md:text-2xl mb-8 text-gray-200">
-            "{city.description}"
+            &ldquo;{city.description}&rdquo;
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
