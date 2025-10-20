@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CityCard } from "@/components/city-card";
 import { City } from "@/lib/types";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,9 @@ export function CityGrid({ cities }: CityGridProps) {
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {cities.map((city) => (
-            <CityCard key={city.id} city={city} />
+            <Link key={city.id} href={`/cities/${city.id}`} className="block">
+              <CityCard city={city} />
+            </Link>
           ))}
         </div>
 
