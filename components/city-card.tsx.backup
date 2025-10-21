@@ -33,7 +33,7 @@ export function CityCard({ city }: CityCardProps) {
   };
 
   return (
-    <Card data-testid="city-card"
+    <Card
       className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-full flex flex-col"
       onClick={handleCardClick}
     >

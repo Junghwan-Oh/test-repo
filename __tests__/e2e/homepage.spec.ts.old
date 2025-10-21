@@ -1,0 +1,134 @@
+import { test, expect } from '@playwright/test';
+import { HomePage } from '../pages/home.page';
+
+/**
+ * 홈페이지 기본 기능 E2E 테스트
+ *
+ * 테스트 시나리오:
+ * 1. http://localhost:3000으로 이동
+ * 2. 로고가 존재하는지 확인
+ * 3. 도시 카드들이 존재하는지 확인
+ * 4. 처음 접속 시 필터가 적용되지 않았는지 확인
+ * 5. 필터가 적용되지 않았을 때 모든 도시가 표시되는지 확인
+ */
+
+test.describe('홈페이지 기본 기능', () => {
+  let homePage: HomePage;
+
+  test.beforeEach(async ({ page }) => {
+    homePage = new HomePage(page);
+    await homePage.navigate();
+
+    // 페이지가 완전히 로드될 때까지 대기
+    await page.waitForLoadState('networkidle');
+  });
+
+  test('홈페이지로 정상적으로 이동한다', async ({ page }) => {
+    // URL 확인
+    expect(page.url()).toBe('http://localhost:3000/');
+
+    // 페이지 제목 확인
+    await expect(page).toHaveTitle(/노마드 코리아/i);
+  });
+
+  test('홈페이지에 로고가 존재한다', async ({ page }) => {
+    // 로고 텍스트가 있는 링크 확인
+    const logo = page.getByRole('link', { name: /노마드 코리아/i });
+
+    await expect(logo).toBeVisible();
+
+    // 로고 클릭 시 홈으로 이동하는지 확인
+    await expect(logo).toHaveAttribute('href', '/');
+  });
+
+  test('홈페이지에 도시 카드들이 존재한다', async () => {
+    // 도시 카드 컨테이너 확인
+    await expect(homePage.cityGrid).toBeVisible();
+
+    // 도시 카드가 최소 1개 이상 존재
+    const cityCardCount = await homePage.getCityCardCount();
+    expect(cityCardCount).toBeGreaterThan(0);
+
+    // 각 도시 카드가 보이는지 확인
+    const cityCards = homePage.cityCards;
+    await expect(cityCards.first()).toBeVisible();
+  });
+
+  test('홈페이지에 처음 접속하면 필터가 적용되지 않는다', async ({ page }) => {
+    // 필터 바가 존재하는지 확인
+    await expect(homePage.filterBar).toBeVisible();
+
+    // 각 필터 select의 기본값이 "전체"인지 확인
+    const budgetValue = await homePage.budgetSelect.inputValue();
+    const regionValue = await homePage.regionSelect.inputValue();
+    const environmentValue = await homePage.environmentSelect.inputValue();
+    const seasonValue = await homePage.seasonSelect.inputValue();
+
+    // 모든 필터가 기본값(전체)이어야 함
+    expect(budgetValue).toBe('전체');
+    expect(regionValue).toBe('전체');
+    expect(environmentValue).toBe('전체');
+    expect(seasonValue).toBe('전체');
+
+    // 활성 필터 개수가 0이어야 함
+    const activeFilterText = await homePage.activeFilterCount.textContent();
+    expect(activeFilterText).toContain('필터 0개 적용중');
+  });
+
+  test('필터가 적용되지 않으면 모든 도시가 표시된다', async () => {
+    // 필터가 적용되지 않았는지 확인
+    const activeFilterText = await homePage.activeFilterCount.textContent();
+    expect(activeFilterText).toContain('필터 0개 적용중');
+
+    // 도시 카드 개수 확인 (데이터베이스에 저장된 12개 도시)
+    const cityCardCount = await homePage.getCityCardCount();
+    expect(cityCardCount).toBe(12);
+
+    // 모든 도시 카드가 화면에 보이는지 확인
+    const allCards = homePage.cityCards;
+    const count = await allCards.count();
+
+    for (let i = 0; i < count; i++) {
+      await expect(allCards.nth(i)).toBeVisible();
+    }
+  });
+
+  test('도시 카드에 필수 정보가 표시된다', async () => {
+    const firstCard = homePage.cityCards.first();
+
+    // 도시 카드가 보이는지 확인
+    await expect(firstCard).toBeVisible();
+
+    // 도시 이름이 있는지 확인
+    const cityName = firstCard.locator('h3').first();
+    await expect(cityName).toBeVisible();
+    const nameText = await cityName.textContent();
+    expect(nameText).toBeTruthy();
+    expect(nameText!.length).toBeGreaterThan(0);
+
+    // 도시 이미지가 있는지 확인
+    const cityImage = firstCard.locator('img').first();
+    await expect(cityImage).toBeVisible();
+
+    // 평점 정보가 있는지 확인
+    const rating = firstCard.getByText(/★/);
+    await expect(rating).toBeVisible();
+  });
+
+  test('필터 UI 요소들이 모두 존재한다', async () => {
+    // 필터 바 확인
+    await expect(homePage.filterBar).toBeVisible();
+
+    // 각 필터 select 확인
+    await expect(homePage.budgetSelect).toBeVisible();
+    await expect(homePage.regionSelect).toBeVisible();
+    await expect(homePage.environmentSelect).toBeVisible();
+    await expect(homePage.seasonSelect).toBeVisible();
+
+    // 초기화 버튼 확인
+    await expect(homePage.resetButton).toBeVisible();
+
+    // 활성 필터 카운트 확인
+    await expect(homePage.activeFilterCount).toBeVisible();
+  });
+});

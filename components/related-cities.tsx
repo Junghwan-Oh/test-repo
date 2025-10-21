@@ -1,16 +1,13 @@
-import Link from 'next/link';
-import { getRelatedCities } from '@/lib/data';
 import { CityCard } from '@/components/city-card';
+import { City } from '@/lib/types';
 
 interface RelatedCitiesProps {
-  cityId: string;
+  cities: City[];
 }
 
-export function RelatedCities({ cityId }: RelatedCitiesProps) {
-  const relatedCities = getRelatedCities(cityId, 4);
-
+export function RelatedCities({ cities }: RelatedCitiesProps) {
   // 관련 도시가 없으면 렌더링하지 않음
-  if (relatedCities.length === 0) {
+  if (cities.length === 0) {
     return null;
   }
 
@@ -25,10 +22,8 @@ export function RelatedCities({ cityId }: RelatedCitiesProps) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {relatedCities.map((city) => (
-            <Link key={city.id} href={`/cities/${city.id}`} className="block">
-              <CityCard city={city} />
-            </Link>
+          {cities.map((city) => (
+            <CityCard key={city.id} city={city} />
           ))}
         </div>
       </div>

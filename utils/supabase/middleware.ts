@@ -6,9 +6,19 @@ export async function updateSession(request: NextRequest) {
     request
   })
 
+  // 환경 변수 확인 - Edge Runtime에서는 환경 변수가 없을 수 있음
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  // 환경 변수가 없으면 인증 체크를 스킵하고 그냥 통과
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn('Supabase environment variables not found in middleware, skipping auth check')
+    return supabaseResponse
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -23,6 +33,12 @@ export async function updateSession(request: NextRequest) {
             supabaseResponse.cookies.set(name, value, options)
           )
         }
+      },
+      auth: {
+        flowType: 'pkce',
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
+        persistSession: false
       }
     }
   )

@@ -43,7 +43,7 @@ export function FilterBar({
   activeFilterCount,
 }: FilterBarProps) {
   return (
-    <div className="w-full bg-background border-b border-border" data-testid="filter-bar">
+    <div className="w-full bg-background border-b border-border">
       <div className="container mx-auto px-4 py-4">
         <div className="flex flex-col gap-4">
           {/* Top Row - Sort and Reset */}
@@ -68,7 +68,7 @@ export function FilterBar({
             {/* Filter count and reset button */}
             {activeFilterCount > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground" data-testid="active-filter-count">
+                <span className="text-sm text-muted-foreground">
                   필터 {activeFilterCount}개 적용중
                 </span>
                 <Button
@@ -99,7 +99,6 @@ export function FilterBar({
                 <label className="text-sm text-muted-foreground font-medium">예산</label>
                 <div className="relative">
                   <select
-                    data-testid="budget-select"
                     value={budgetFilter}
                     onChange={(e) => setBudgetFilter(e.target.value as BudgetType | "전체")}
                     className="w-full appearance-none bg-surface border border-border rounded-md px-4 py-2 pr-10 text-sm font-medium cursor-pointer hover:bg-surface/80 transition-colors"
@@ -120,7 +119,6 @@ export function FilterBar({
                 <label className="text-sm text-muted-foreground font-medium">지역</label>
                 <div className="relative">
                   <select
-                    data-testid="region-select"
                     value={regionFilter}
                     onChange={(e) => setRegionFilter(e.target.value as RegionType)}
                     className="w-full appearance-none bg-surface border border-border rounded-md px-4 py-2 pr-10 text-sm font-medium cursor-pointer hover:bg-surface/80 transition-colors"
@@ -140,7 +138,6 @@ export function FilterBar({
                 <label className="text-sm text-muted-foreground font-medium">환경</label>
                 <div className="relative">
                   <select
-                    data-testid="environment-select"
                     value={environmentFilter}
                     onChange={(e) => setEnvironmentFilter(e.target.value as EnvironmentType | "전체")}
                     className="w-full appearance-none bg-surface border border-border rounded-md px-4 py-2 pr-10 text-sm font-medium cursor-pointer hover:bg-surface/80 transition-colors"
@@ -161,7 +158,6 @@ export function FilterBar({
                 <label className="text-sm text-muted-foreground font-medium">최고계절</label>
                 <div className="relative">
                   <select
-                    data-testid="season-select"
                     value={seasonFilter}
                     onChange={(e) => setSeasonFilter(e.target.value as SeasonType | "전체")}
                     className="w-full appearance-none bg-surface border border-border rounded-md px-4 py-2 pr-10 text-sm font-medium cursor-pointer hover:bg-surface/80 transition-colors"

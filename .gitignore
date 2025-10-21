@@ -6,6 +6,12 @@
 # testing
 /coverage
 
+# playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/.auth/
+
 # next.js
 /.next/
 /out/
@@ -31,3 +37,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# worktree
+/worktree

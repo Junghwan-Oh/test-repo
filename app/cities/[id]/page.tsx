@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getCityById, cities } from '@/lib/data';
+import { getCityById, cities, getRelatedCities } from '@/lib/data';
+import { fetchCityById, fetchRelatedCities } from '@/lib/api/cities';
+import { adaptCityData, adaptCitiesData } from '@/lib/adapters/city-adapter';
 import { CityDetailNavigation } from '@/components/city-detail-navigation';
 import { CityDetailHero } from '@/components/city-detail-hero';
 import { CityInfoCards } from '@/components/city-info-cards';
@@ -82,7 +84,28 @@ export async function generateMetadata({
 
 export default async function CityDetailPage({ params }: CityDetailPageProps) {
   const { id } = await params;
-  const city = getCityById(id);
+
+  // Supabase에서 도시 데이터 가져오기, 실패 시 로컬 데이터 사용
+  let city = null;
+  let relatedCities = [];
+
+  try {
+    const supabaseCity = await fetchCityById(id);
+    if (supabaseCity) {
+      city = adaptCityData(supabaseCity);
+      const supabaseRelatedCities = await fetchRelatedCities(id, 4);
+      relatedCities = adaptCitiesData(supabaseRelatedCities);
+    } else {
+      // Supabase에 없으면 로컬 데이터 사용
+      city = getCityById(id);
+      relatedCities = getRelatedCities(id, 4);
+    }
+  } catch (error) {
+    console.error('Error fetching city from Supabase:', error);
+    // 에러 발생 시 로컬 데이터 사용
+    city = getCityById(id);
+    relatedCities = getRelatedCities(id, 4);
+  }
 
   // 도시를 찾지 못한 경우 404 페이지 표시
   if (!city) {
@@ -132,7 +155,7 @@ export default async function CityDetailPage({ params }: CityDetailPageProps) {
         <CityCharacteristicsSection city={city} />
 
         {/* 관련 도시 추천 */}
-        <RelatedCities cityId={city.id} />
+        <RelatedCities cities={relatedCities} />
       </div>
     </>
   );
